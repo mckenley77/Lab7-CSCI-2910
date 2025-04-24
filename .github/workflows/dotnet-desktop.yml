@@ -17,7 +17,7 @@ jobs:
 
     env:
       Solution_Name: TestProject3.sln
-      Test_Project_Path: TestProject3/TestProject3.csproj
+      Test_Project_Path: C:\Users\smcke\OneDrive\Desktop\TestProject3\TestProject3.csproj
 
     steps:
     - name: Checkout repository
