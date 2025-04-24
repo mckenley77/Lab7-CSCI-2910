@@ -1,77 +1,38 @@
 name: .NET Core Console CI
 
- 
-
 on:
-
   push:
-
     branches: [ "main" ]
-
   pull_request:
-
     branches: [ "main" ]
-
- 
 
 jobs:
-
   build-and-test:
-
- 
-
-    name: build-and-test-${{matrix.os}}
-
+    name: build-and-test-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
-
       matrix:
-
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-
-       
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     env:
-
       Solution_Name: TestProject3.sln
-
       Test_Project_Path: Lab7-CSCI-2910/TestProject3.csproj
 
- 
-
     steps:
-
     - name: Checkout repository
-
       uses: actions/checkout@v4
 
- 
-
-    - name: Install .NET Core
-
+    - name: Setup .NET 8 SDK
       uses: actions/setup-dotnet@v4
-
       with:
+        dotnet-version: '8.0.x'
 
-        dotnet-version: '6.0.x'
-
- 
-
-    - name: Restore NuGet packages
-
+    - name: Restore dependencies
       run: dotnet restore ${{ env.Solution_Name }}
 
- 
-
     - name: Build solution
-
       run: dotnet build ${{ env.Solution_Name }} --configuration Release --no-restore
 
- 
-
-    - name: Test and publish results
-
-      run: |
-
-        dotnet test ${{ env.Test_Project_Path }} --no-restore --verbosity normal
+    - name: Run tests
+      run: dotnet test ${{ env.Test_Project_Path }} --no-restore --verbosity normal
